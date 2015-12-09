@@ -1,0 +1,74 @@
+# Compiled source #
+###################
+*.exe
+*.bin
+*.app
+
+# Compiled object files #
+#########################
+*.o
+*.lo
+*.slo
+
+# Temporary files #
+###################
+*.tmp
+*.dot
+
+# Compiled Dynamic Libraries #
+##############################
+*.so
+*.dylib
+
+# Compiled Static Libraries #
+#############################
+*.lai
+*.la
+*.a
+
+# pdflatex files #
+##################
+*.aux
+*.toc
+*.out
+*.pdf
+
+# Backup files #
+################
+*~
+*.bkp
+
+# Folders #
+###########
+bin/
+deps/
+objs/
+
+# Packages #
+############
+*.7z
+*.gz
+*.zip
+*.iso
+*.rar
+*.tar
+
+# Logs/DB #
+###########
+*.log
+*.sql
+*.sqlite
+
+# OS files #
+############
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ethumbs.db
+Thumbs.db
+
+# No Vagrant trash #
+####################
+.vagrant/
