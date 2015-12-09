@@ -53,7 +53,7 @@ LINKFLAGS = $(TESTFLAGS)
 # ======== main ========
 MAINDIR = src
 
-UTILSDIR = util
+UTILSDIR = utils
 
 ifeq ($(MAKECMDGOALS),test)
 	TESTSDIR = tests
