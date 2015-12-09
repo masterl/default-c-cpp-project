@@ -1,0 +1,24 @@
+#   ===============================
+#  ||    MAKEFILE DEPENDENCIES    ||
+#   ===============================
+#
+#  Gera/atualiza dependencias
+
+#$(patsubst %.d,%.cpp,$(subst $(DEPDIR)/,,$@))
+
+alldeps: $(ALLDEPDEPS)
+	@echo -e '------------------------------------------------------'
+	@echo -e '\tDependencies updated!\n'
+
+$(ALLDEPDEPS): FORCE
+	@set -e; $(MAKE) --no-print-directory -f makedep ARG=$@ TARGET=$(subst $(DEPSUFFIX).d,.d,$@)
+
+#	@set -e; $(MAKE) --no-print-directory -f makedep ARG=$@ TARGET=$(subst $(DEPSUFFIX).d,.d,$@)
+#	@echo -e '------------------------------------------------------'
+#	@echo -e '\t=makedeps=\n   $@'
+
+FORCE:
+
+#   =========================================
+#  ||      MAKEFILE DEPENDENCIES >END<      ||
+#   =========================================

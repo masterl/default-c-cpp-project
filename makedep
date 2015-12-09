@@ -1,0 +1,31 @@
+#   ===============================
+#  ||    MAKEFILE DEPENDENCIES    ||
+#   ===============================
+#
+#  Generates/updates dependencies
+
+# the - prevents error messages if the file doesn't exist
+-include $(ARG)
+
+$(TARGET):
+	@echo -e '------------------------------------------------------'
+	@echo -e '\t\tUpdating:\n\t$@\n\t$(subst .d,$(DEPSUFFIX).d,$@) ...'
+	@set -e; rm -f $(TARGET); rm -f $(ARG); \
+	$(CC) -MM $(ALLCOMPFLAGS) $(patsubst %.d,%.cpp,$(subst $(DEPDIR)/,,$(TARGET))) > $@.$$$$; \
+	sed 's,\($(subst .d,,$(@F))\)\.o[ :]*,$(subst $(DEPDIR),,$(@D))$(OBJDIR)/\1.o: ,g' < $@.$$$$ > $(TARGET); \
+	sed 's,\($(subst .d,,$(@F))\)\.o[ :]*,$(@D)/\1.d: ,g' < $@.$$$$ > $(ARG); \
+	rm -f $@.$$$$
+
+#	=BACKUP=
+#   sed 's,\($(subst .d,,$(@F))\)\.o[ :]*,$(subst $(DEPDIR),,$(@D))$(OBJDIR)/\1.o $@ : ,g' < $@.$$$$ > $@; \
+#
+#   =TESTES=
+#	@echo -e '\tARG: $(ARG)\n\tTARGET: $(TARGET)\n\tCOMPFLAGS: $(COMPFLAGS)'
+#	@echo -e '\t-> $*'
+#	@echo -e '\tDir: $(@D) '
+#	@echo -e '\tFile: $(subst .d,,$(@F)) '
+#	@echo -e '\tTeste: $(subst $(DEPDIR),,$(@D))'
+
+#   =========================================
+#  ||      MAKEFILE DEPENDENCIES >END<      ||
+#   =========================================

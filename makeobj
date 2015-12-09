@@ -1,0 +1,17 @@
+#   ===========================
+#  ||    MAKEFILE OBJECTS     ||
+#   ===========================
+#
+#  Compiles objects
+
+# the - prevents error messages if the file doesn't exist
+-include $(ODEP)
+
+$(TARGET):
+	@echo -e '------------------------------------------------------'
+	@echo -e '\t\tUpdating:\n\t$@ ...'
+	@set -e; rm -f $(TARGET); $(CC) $(LOCALLIBDIR) $(ALLCOMPFLAGS) -c $(patsubst %.o,%.cpp,$(subst $(OBJDIR)/,,$@)) -o $@
+
+#   ====================================
+#  ||      MAKEFILE OBJECTS >END<      ||
+#   ====================================
