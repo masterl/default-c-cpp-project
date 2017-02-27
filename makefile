@@ -42,7 +42,7 @@ ALLCOMPFLAGS = $(GENERALSTARTFLAGS)
 
 #LINKFLAGS = -lboost_filesystem -lboost_system
 ifeq ($(MAKECMDGOALS),test)
-	TESTFLAGS = 
+	TESTFLAGS =
 endif
 
 LINKFLAGS = $(TESTFLAGS)
