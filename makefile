@@ -77,10 +77,15 @@ ifeq ($(MAKECMDGOALS),test)
 endif
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Dependencies Lists
+# Dependencies lists
 #--------------------------------------------------------------------------
 # .o dependencies
 ALLDEPS :=	$(call get_dependencies_from_sources_list,$(ALLSRCFILES))
 
 # dependency dependencies so we are able to update dependencies
 ALLDEPDEPS :=	$(call get_dependencies_dependency_list,$(ALLDEPS))
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Object files list
+#--------------------------------------------------------------------------
+ALLOBJS := $(call get_objects_from_sources_list,$(ALLSRCFILES))

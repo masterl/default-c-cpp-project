@@ -50,3 +50,11 @@ endef
 define get_dependencies_dependency_list
 $(patsubst %.d,%$(DEPSUFFIX).d,$1)
 endef
+
+define convert_source_to_object
+$(addprefix $(dir $1)$(OBJDIR)/,$(patsubst %.cpp,%.o,$(notdir $1)))
+endef
+
+define get_objects_from_sources_list
+$(foreach source,$1,$(call convert_source_to_object,$(source)))
+endef
