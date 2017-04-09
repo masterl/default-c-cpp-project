@@ -10,7 +10,7 @@
 $(TARGET):
 	@echo -e '------------------------------------------------------'
 	@echo -e '\t\tUpdating:\n\t$@ ...'
-	@set -e; rm -f $(TARGET); $(CC) $(LOCALLIBDIR) $(ALLCOMPFLAGS) -c $(patsubst %.o,%.cpp,$(subst $(OBJDIR)/,,$@)) -o $@
+	@set -e; rm -f $(TARGET); $(CC) $(ALLCOMPFLAGS) -c $(patsubst %.o,%.cpp,$(subst $(OBJDIR)/,,$@)) -o $@
 
 #   ====================================
 #  ||      MAKEFILE OBJECTS >END<      ||
