@@ -26,9 +26,11 @@ LIBDIR := -L/usr/lib
 #STACKTRACEFLAGS = -rdynamic
 #PTHREADFLAG = -lpthread
 
+INCLUSIONFLAGS := -I./vendor
+
 GENERALSTARTFLAGS := -Wall -std=c++14
 
-ALLCOMPFLAGS := $(GENERALSTARTFLAGS)
+ALLCOMPFLAGS := $(GENERALSTARTFLAGS) $(INCLUSIONFLAGS)
 
 #LINKFLAGS = -lboost_filesystem -lboost_system
 ifeq ($(MAKECMDGOALS),test)
@@ -125,7 +127,7 @@ exec: rmexec allobjs FORCE | $(BINDIR)
 
 test: compiletest
 	@echo -e 'Executing tests...\n'
-	@set -e;./$(BINDIR)/$(TESTEXEC) --log_level=message --build_info=yes --show_progress=true
+	@set -e;./$(BINDIR)/$(TESTEXEC)
 
 compiletest: rmtest allobjs FORCE | $(BINDIR)
 	$(CC) $(ALLOBJS) $(ALLCOMPFLAGS) -o $(BINDIR)/$(TESTEXEC) $(LINKFLAGS)
