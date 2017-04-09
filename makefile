@@ -8,13 +8,13 @@ include .functions.mk
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #	Compiler:
 #--------------------------------------------------------------------------
-CC = g++
+CC := g++
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #	Directories for linking
 #--------------------------------------------------------------------------
 # ======== GERAL ========
-LIBDIR = -L/usr/lib
+LIBDIR := -L/usr/lib
 # LOCALLIBDIR =  -L/usr/local/lib
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -27,45 +27,47 @@ LIBDIR = -L/usr/lib
 #STACKTRACEFLAGS = -rdynamic
 #PTHREADFLAG = -lpthread
 
-GENERALSTARTFLAGS = -Wall -std=c++14
+GENERALSTARTFLAGS := -Wall -std=c++14
 
-ALLCOMPFLAGS = $(GENERALSTARTFLAGS)
+ALLCOMPFLAGS := $(GENERALSTARTFLAGS)
 
 #LINKFLAGS = -lboost_filesystem -lboost_system
 ifeq ($(MAKECMDGOALS),test)
-	TESTFLAGS =
+	TESTFLAGS :=
 endif
 
-LINKFLAGS = $(TESTFLAGS)
+LINKFLAGS += $(TESTFLAGS)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #	Sources directories
 #--------------------------------------------------------------------------
 # ======== main ========
-MAINDIR = src
+MAINDIR := src
 
-UTILSDIR = utils
+UTILSDIR := utils
 
 ifeq ($(MAKECMDGOALS),test)
-	TESTSDIR = tests
-	_ALLSRCDIRLIST = $(MAINDIR) $(UTILSDIR) $(TESTSDIR)
+	TESTSDIR := tests
+	UNPROCESSEDDIRLIST = $(MAINDIR) $(UTILSDIR) $(TESTSDIR)
 else
-	_ALLSRCDIRLIST = $(MAINDIR) $(UTILSDIR)
+	UNPROCESSEDDIRLIST = $(MAINDIR) $(UTILSDIR)
 endif
+
+_ALLSRCDIRLIST := $(call get_processed_directories_trees_list,$(UNPROCESSEDDIRLIST))
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #	Dependencies and object directories
 #--------------------------------------------------------------------------
-DEPDIR = deps
+DEPDIR := deps
 
-DEPDIRLIST = $(addsuffix /$(DEPDIR),$(_ALLSRCDIRLIST))
+DEPDIRLIST := $(addsuffix /$(DEPDIR),$(_ALLSRCDIRLIST))
 
-DEPSUFFIX = _dep
+DEPSUFFIX := _dep
 
 #----====----====----====----====----
-OBJDIR = objs
+OBJDIR := objs
 
-OBJDIRLIST = $(addsuffix /$(OBJDIR),$(_ALLSRCDIRLIST))
+OBJDIRLIST := $(addsuffix /$(OBJDIR),$(_ALLSRCDIRLIST))
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Sources list

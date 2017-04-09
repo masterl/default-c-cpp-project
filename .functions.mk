@@ -10,3 +10,19 @@ define execute-command
 $(tab)$(1)
 
 endef
+
+define get_directory_tree
+$(shell find $1 -type d)
+endef
+
+define get_directories_trees_list
+$(foreach dir,$1,$(call get_directory_tree,$(dir)))
+endef
+
+define remove_deps_and_objs_folders
+$(filter-out %/deps %/objs,$1)
+endef
+
+define get_processed_directories_trees_list
+$(call remove_deps_and_objs_folders,$(call get_directories_trees_list,$1))
+endef
