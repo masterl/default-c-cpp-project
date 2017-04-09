@@ -5,6 +5,7 @@
 
 DEPDIR := deps
 DEPSUFFIX := _dep
+OBJDIR := objs
 
 empty =
 tab = $(empty)$(shell printf '\t')$(empty)
@@ -32,4 +33,8 @@ endef
 
 define get_dependencies_directories
 $(addsuffix /$(DEPDIR),$1)
+endef
+
+define get_objects_directories
+$(addsuffix /$(OBJDIR),$1)
 endef
