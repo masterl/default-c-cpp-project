@@ -1,7 +1,10 @@
-#   ==========================
-#  ||    HELPER FUNCTIONS    ||
-#   ==========================
+#   ==========================================
+#  ||    HELPER FUNCTIONS AND DEFINITIONS    ||
+#   ==========================================
 #
+
+DEPDIR := deps
+DEPSUFFIX := _dep
 
 empty =
 tab = $(empty)$(shell printf '\t')$(empty)
@@ -25,4 +28,8 @@ endef
 
 define get_processed_directories_trees_list
 $(call remove_deps_and_objs_folders,$(call get_directories_trees_list,$1))
+endef
+
+define get_dependencies_directories
+$(addsuffix /$(DEPDIR),$1)
 endef
