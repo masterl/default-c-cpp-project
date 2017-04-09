@@ -38,3 +38,15 @@ endef
 define get_objects_directories
 $(addsuffix /$(OBJDIR),$1)
 endef
+
+define convert_source_to_dependency
+$(addprefix $(dir $1)$(DEPDIR)/,$(patsubst %.cpp,%.d,$(notdir $1)))
+endef
+
+define get_dependencies_from_sources_list
+$(foreach source,$1,$(call convert_source_to_dependency,$(source)))
+endef
+
+define get_dependencies_dependency_list
+$(patsubst %.d,%$(DEPSUFFIX).d,$1)
+endef

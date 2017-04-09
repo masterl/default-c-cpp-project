@@ -75,3 +75,12 @@ ALLSRCFILES := $(foreach dir,$(_ALLSRCDIRLIST),$(wildcard $(dir)/*.cpp))
 ifeq ($(MAKECMDGOALS),test)
 	ALLSRCFILES := $(filter-out $(MAINDIR)/$(MAINFILE),$(ALLSRCFILES))
 endif
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Dependencies Lists
+#--------------------------------------------------------------------------
+# .o dependencies
+ALLDEPS :=	$(call get_dependencies_from_sources_list,$(ALLSRCFILES))
+
+# dependency dependencies so we are able to update dependencies
+ALLDEPDEPS :=	$(call get_dependencies_dependency_list,$(ALLDEPS))
