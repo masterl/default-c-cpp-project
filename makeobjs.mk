@@ -9,7 +9,7 @@ allobjs: $(ALLOBJS)
 	@echo -e '\tObjects updated!\n'
 
 $(ALLOBJS): FORCE
-	@set -e; $(MAKE) --no-print-directory -f makeobj TARGET=$@ ODEP=$(subst $(OBJDIR),$(DEPDIR),$(subst .o,.d,$@))
+	@set -e; $(MAKE) --no-print-directory -f makeobj.mk TARGET=$@
 
 
 FORCE:

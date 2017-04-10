@@ -53,18 +53,15 @@ UNPROCESSEDDIRLIST := $(SOURCEDIRS)
 
 ifeq ($(MAKECMDGOALS),test)
 	TESTSDIR := tests
+	ALLCOMPFLAGS += -I.
 	UNPROCESSEDDIRLIST += $(TESTSDIR)
 endif
 
 _ALLSRCDIRLIST := $(call get_processed_directories_trees_list,$(UNPROCESSEDDIRLIST))
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#	Dependencies and object directories
+#	Object directories
 #--------------------------------------------------------------------------
-DEPDIRLIST := $(call get_dependencies_directories,$(_ALLSRCDIRLIST))
-
-#----====----====----====----====----
-
 OBJDIRLIST := $(call get_objects_directories,$(_ALLSRCDIRLIST))
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -76,15 +73,6 @@ ALLSRCFILES := $(foreach dir,$(_ALLSRCDIRLIST),$(wildcard $(dir)/*.cpp))
 ifeq ($(MAKECMDGOALS),test)
 	ALLSRCFILES := $(filter-out $(MAINDIR)/$(MAINFILE),$(ALLSRCFILES))
 endif
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Dependencies lists
-#--------------------------------------------------------------------------
-# .o dependencies
-ALLDEPS :=	$(call get_dependencies_from_sources_list,$(ALLSRCFILES))
-
-# dependency dependencies so we are able to update dependencies
-ALLDEPDEPS :=	$(call get_dependencies_dependency_list,$(ALLDEPS))
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Object files list
@@ -101,10 +89,7 @@ BINDIR := bin
 
 export CC
 export ALLCOMPFLAGS
-export DEPDIR
 export OBJDIR
-export DEPSUFFIX
-export ALLDEPDEPS
 export ALLOBJS
 
 all:
@@ -136,30 +121,17 @@ compiletest: rmtest allobjs FORCE | $(BINDIR)
 	@echo -e '=           Executable: $(BINDIR)/$(TESTEXEC)  \t\t     ='
 	@echo -e '=----------------------------------------------------=\n\n'
 
-allobjs: objdirs alldeps
-	@set -e; $(MAKE) --no-print-directory -f makeobjs allobjs
-
-#aobjsdebian: objdirs adeps
-#	@set -e; $(MAKE) --no-print-directory -f makeobjs allobjs PGINCDIR=$(PGDEBIANINCDIR) PGLIBDIR=$(PGDEBIANLIBDIR)
-
-#aobjscentos: objdirs adeps
-#	@set -e; $(MAKE) --no-print-directory -f makeobjs allobjs PGINCDIR=$(PGCENTOSINCDIR) PGLIBDIR=$(PGCENTOSLIBDIR)
-
-alldeps: depdirs
-	@set -e; $(MAKE) --no-print-directory -f makedeps alldeps
-
-depdirs: | $(DEPDIRLIST)
-	@echo -e '------------------------------------------------------'
-	@echo -e '\tDependencies directories created/checked!\n'
+allobjs: objdirs
+	@set -e; $(MAKE) --no-print-directory -f makeobjs.mk allobjs
 
 objdirs: | $(OBJDIRLIST)
 	@echo -e '------------------------------------------------------'
 	@echo -e '\tObjects directories created/checked!\n'
 
-$(DEPDIRLIST) $(OBJDIRLIST) $(BINDIR):
+$(OBJDIRLIST) $(BINDIR):
 	mkdir $@
 
-clean: rmdeps rmobjs rmexec FORCE
+clean: rmobjs rmexec FORCE
 	rm -rf $(BINDIR)
 	@echo -e '------------------------------------------------------'
 	@echo -e '\tAll files removed!\n\n'
@@ -173,9 +145,6 @@ rmtest:
 	rm -f $(BINDIR)/$(TESTEXEC)
 	@echo -e '------------------------------------------------------'
 	@echo -e '\tTest executable removed!'
-
-rmdeps: FORCE
-	$(foreach dir, $(DEPDIRLIST) tests/$(DEPDIR), $(call execute-command, rm -rf $(dir) ) )
 
 rmobjs: FORCE
 	$(foreach dir, $(OBJDIRLIST) tests/$(OBJDIR), $(call execute-command, rm -rf $(dir) ) )
