@@ -121,8 +121,12 @@ compiletest: rmtest allobjs FORCE | $(BINDIR)
 	@echo -e '=           Executable: $(BINDIR)/$(TESTEXEC)  \t\t     ='
 	@echo -e '=----------------------------------------------------=\n\n'
 
-allobjs: objdirs
-	@set -e; $(MAKE) --no-print-directory -f makeobjs.mk allobjs
+allobjs: objdirs $(ALLOBJS)
+	@echo -e '------------------------------------------------------'
+	@echo -e '\tObjects updated!\n'
+
+$(ALLOBJS): FORCE
+	@set -e; $(MAKE) --no-print-directory -f makeobj.mk TARGET=$@
 
 objdirs: | $(OBJDIRLIST)
 	@echo -e '------------------------------------------------------'
