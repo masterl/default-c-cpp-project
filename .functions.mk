@@ -46,7 +46,7 @@ $(patsubst %.o,%.cpp,$(subst $(OBJDIR)/,,$1))
 endef
 
 define get_object_rule_from_source
-$(shell $(CC) -MM $(ALLCOMPFLAGS) $1)
+$(patsubst \,,$(shell $(CC) -MM $(ALLCOMPFLAGS) $1))
 endef
 
 define get_prerequisites_from_rule
