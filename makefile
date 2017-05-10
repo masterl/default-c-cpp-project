@@ -6,14 +6,16 @@
 include .functions.mk
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#	Compiler:
+#	Compilers:
 #--------------------------------------------------------------------------
-CC := g++
+# Override if needed:
+CC := gcc
+CXX := g++
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #	Directories for linking
 #--------------------------------------------------------------------------
-# ======== GERAL ========
+# ======== GENERAL ========
 LIBDIR := -L/usr/lib
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -26,15 +28,19 @@ LIBDIR := -L/usr/lib
 #STACKTRACEFLAGS = -rdynamic
 #PTHREADFLAG = -lpthread
 
-INCLUSIONFLAGS := -I./vendor
+# Extra flags to give to the C compiler.
+CFLAGS := -Wall
 
-GENERALSTARTFLAGS := -Wall -std=c++14
+# Extra flags to give to the C++ compiler.
+CXXFLAGS := -Wall -std=c++14
+CXXFLAGS := -I./vendor
+
 
 ALLCOMPFLAGS := $(GENERALSTARTFLAGS) $(INCLUSIONFLAGS)
 
 #LINKFLAGS = -lboost_filesystem -lboost_system
 ifeq ($(MAKECMDGOALS),test)
-	TESTFLAGS :=
+	TESTFLAGS := -lgtest_main -lgmock -lgtest -lpthread
 endif
 
 LINKFLAGS += $(TESTFLAGS)
@@ -67,7 +73,7 @@ OBJDIRLIST := $(call get_objects_directories,$(_ALLSRCDIRLIST))
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Sources list
 #--------------------------------------------------------------------------
-ALLSRCFILES := $(foreach dir,$(_ALLSRCDIRLIST),$(wildcard $(dir)/*.cpp))
+ALLSRCFILES := $(foreach dir,$(_ALLSRCDIRLIST),$(call get_folder_source_files_list,$(dir)))
 
 # Main file should be removed from list when testing
 ifeq ($(MAKECMDGOALS),test)
@@ -78,6 +84,11 @@ endif
 # Object files list
 #--------------------------------------------------------------------------
 ALLOBJS := $(call get_objects_from_sources_list,$(ALLSRCFILES))
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Main compiler
+#--------------------------------------------------------------------------
+MAIN_COMPILER := $(call get_main_compiler)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Executable definitions
@@ -104,7 +115,7 @@ all:
 	@echo -e '===============================================\n\n'
 
 exec: rmexec allobjs FORCE | $(BINDIR)
-	$(CC) $(ALLOBJS) $(ALLCOMPFLAGS) -o $(BINDIR)/$(EXEC) $(LINKFLAGS)
+	$(MAIN_COMPILER) $(ALLOBJS) $(ALLCOMPFLAGS) -o $(BINDIR)/$(EXEC) $(LINKFLAGS)
 	@echo -e '=----------------------------------------------------='
 	@echo -e '=           executable generated/updated             ='
 	@echo -e '=           Executable: $(BINDIR)/$(EXEC)  \t\t     ='
@@ -115,7 +126,7 @@ test: compiletest
 	@set -e;./$(BINDIR)/$(TESTEXEC)
 
 compiletest: rmtest allobjs FORCE | $(BINDIR)
-	$(CC) $(ALLOBJS) $(ALLCOMPFLAGS) -o $(BINDIR)/$(TESTEXEC) $(LINKFLAGS)
+	$(MAIN_COMPILER) $(ALLOBJS) $(ALLCOMPFLAGS) -o $(BINDIR)/$(TESTEXEC) $(LINKFLAGS)
 	@echo -e '=----------------------------------------------------='
 	@echo -e '=           TESTS generated/updated                  ='
 	@echo -e '=           Executable: $(BINDIR)/$(TESTEXEC)  \t\t     ='

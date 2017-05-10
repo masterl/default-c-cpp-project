@@ -1,10 +1,14 @@
-## Default C++ Project
+## Default C/C++ Project
+Makefiles and folder structure for C/C++ development
 
-This repository is only for storing my default project files and folder structures for C++ development
+### Features:
+- Automatically detects subfolders
+- Compiler selection according to source extension
 
-### Now supporting subfolders!
+### Tested on:
+- Ubuntu 16.04
 
 #### Dependencies:
 
-- autotest.sh
-  - entr http://entrproject.org/
+- For `autotest.sh`:
+  - [entr](http://entrproject.org/)
