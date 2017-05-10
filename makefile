@@ -33,14 +33,14 @@ CFLAGS := -Wall
 
 # Extra flags to give to the C++ compiler.
 CXXFLAGS := -Wall -std=c++14
-CXXFLAGS := -I./vendor
+CXXFLAGS += -I./vendor
 
 
 ALLCOMPFLAGS := $(GENERALSTARTFLAGS) $(INCLUSIONFLAGS)
 
 #LINKFLAGS = -lboost_filesystem -lboost_system
 ifeq ($(MAKECMDGOALS),test)
-	TESTFLAGS := -lgtest_main -lgmock -lgtest -lpthread
+	TESTFLAGS :=
 endif
 
 LINKFLAGS += $(TESTFLAGS)
@@ -98,7 +98,8 @@ TESTEXEC := test
 
 BINDIR := bin
 
-export CC
+export CFLAGS
+export CXXFLAGS
 export ALLCOMPFLAGS
 export OBJDIR
 export ALLOBJS

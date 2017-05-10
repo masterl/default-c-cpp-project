@@ -21,10 +21,12 @@ COMPILER := $(call get_compiler,$(TARGET_SOURCE))
 # $(info COMPILER-------->$(COMPILER))
 # $(info #)
 
+COMPILATION_FLAGS := $(if $(call is_cpp_source),$(CXXFLAGS),$(CFLAGS))
+
 $(TARGET): $(PREREQUISITES)
 	@echo -e '------------------------------------------------------'
 	@echo -e '\t\tUpdating:\n\t$@ ...'
-	@set -e; rm -f $(TARGET); $(COMPILER) $(ALLCOMPFLAGS) -c $(TARGET_SOURCE) -o $@;
+	@set -e; rm -f $(TARGET); $(COMPILER) $(COMPILATION_FLAGS) -c $(TARGET_SOURCE) -o $@;
 
 #   ===================================
 #  ||      MAKEFILE OBJECT >END<      ||
