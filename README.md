@@ -8,6 +8,9 @@ Makefiles and folder structure for C/C++ development
 ### Tested on:
 - Ubuntu 16.04
 
+### Notes
+- **Currently only supports .cpp extension for C++ source files!**
+
 ### TODOs
 See [TODO.md](TODO.md)
 
