@@ -1,6 +1,9 @@
 ## Default C/C++ Project
 Makefiles and folder structure for C/C++ development
 
+### Note
+- **Linux only**
+
 ### Features:
 - Automatically detects subfolders
 - Compiler selection according to source extension
