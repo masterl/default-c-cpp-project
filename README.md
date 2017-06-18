@@ -8,6 +8,9 @@ Makefiles and folder structure for C/C++ development
 ### Tested on:
 - Ubuntu 16.04
 
+### TODOs
+See [TODO.md](TODO.md)
+
 #### Dependencies:
 
 - For `autotest.sh`:

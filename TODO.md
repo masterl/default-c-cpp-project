@@ -1,0 +1,1 @@
+- [ ] Fix flags set according to source type
