@@ -21,7 +21,7 @@ COMPILER := $(call get_compiler,$(TARGET_SOURCE))
 # $(info COMPILER-------->$(COMPILER))
 # $(info #)
 
-COMPILATION_FLAGS := $(if $(call is_cpp_source),$(CXXFLAGS),$(CFLAGS))
+COMPILATION_FLAGS := $(if $(call is_cpp_file, $(TARGET_SOURCE)),$(CXXFLAGS),$(CFLAGS))
 
 $(TARGET): $(PREREQUISITES)
 	@echo -e '------------------------------------------------------'

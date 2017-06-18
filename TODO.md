@@ -1,1 +1,1 @@
-- [ ] Fix flags set according to source type
+- [X] Set compilation flags according to source type for each object

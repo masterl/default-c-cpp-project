@@ -65,10 +65,14 @@ define get_cpp_source_count
 $(shell echo $(ALLSRCFILES) | tr "[:blank:]" "\n" | grep -v "[.]c$$" | wc -l)
 endef
 
-define is_cpp_source
+define is_cpp_file
+$(patsubst %.c,,$1)
+endef
+
+define is_cpp_project
 $(subst 0,,$(call get_cpp_source_count))
 endef
 
 define get_main_compiler
-$(if $(call is_cpp_source),$(CXX),$(CC))
+$(if $(call is_cpp_project),$(CXX),$(CC))
 endef
