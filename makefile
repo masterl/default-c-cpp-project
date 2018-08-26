@@ -21,24 +21,28 @@ LIBDIR := -L/usr/lib
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #	Compilation flags
 #--------------------------------------------------------------------------
-#PGFLAG = -lpq
-#ALLBOOSTFLAGS = -lboost_locale -lpthread -lboost_thread -lboost_filesystem -lboost_system -lboost_regex -lboost_serialization -lboost_random
-#ALLENDFLAGS = -lssl -lcrypto -lz -ldl -lmhash -lcurl
+
+# Flags for the C compiler.
+CFLAGS := -Wall
+
+# Flags for the C++ compiler.
+CXXFLAGS := -Wall -std=c++14
+CXXFLAGS += -I./vendor
+
+ALLCOMPFLAGS := $(GENERALSTARTFLAGS) $(INCLUSIONFLAGS)
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#	Linker flags
+#--------------------------------------------------------------------------
+# ==== SOME KNOWN FLAGS (might be incomplete) ====
+#PGFLAGS = -lpq
+#BOOSTFLAGS = -lboost_locale -lpthread -lboost_thread -lboost_filesystem -lboost_system -lboost_regex -lboost_serialization -lboost_random
+#MISCFLAGS = -lssl -lcrypto -lz -ldl -lmhash -lcurl
 #GOOGLETESTFLAGS = -lgmock_main -lgmock -lgtest
 #STACKTRACEFLAGS = -rdynamic
 #PTHREADFLAG = -lpthread
 
-# Extra flags to give to the C compiler.
-CFLAGS := -Wall
-
-# Extra flags to give to the C++ compiler.
-CXXFLAGS := -Wall -std=c++14
-CXXFLAGS += -I./vendor
-
-
-ALLCOMPFLAGS := $(GENERALSTARTFLAGS) $(INCLUSIONFLAGS)
-
-#LINKFLAGS = -lboost_filesystem -lboost_system
+#LINKFLAGS := -lboost_filesystem -lboost_system
 ifeq ($(MAKECMDGOALS),test)
 	TESTFLAGS :=
 endif
@@ -48,12 +52,12 @@ LINKFLAGS += $(TESTFLAGS)
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #	Sources directories
 #--------------------------------------------------------------------------
-# Specify which directory contais the main file
+# Specify main source directory (which contains the main source file)
 MAINDIR := src
 # Name of main file
 MAINFILE := main.cpp
 # All source directories (except test files directory)
-SOURCEDIRS := src utils
+SOURCEDIRS := $(MAINDIR) utils
 
 UNPROCESSEDDIRLIST := $(SOURCEDIRS)
 
