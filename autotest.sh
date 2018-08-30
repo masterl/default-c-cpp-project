@@ -10,7 +10,7 @@ fi
 
 ignore_list=()
 ignore_list+=('/.git')
-ignore_list+=('/autotest.sh') # You should manually restart this script upon edition
+ignore_list+=('/autotest.sh') # You should manually restart this script upon editing it
 ignore_list+=('/.gitignore')
 ignore_list+=('/objs')
 
