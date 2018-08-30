@@ -13,6 +13,7 @@ ignore_list+=('/.git')
 ignore_list+=('/autotest.sh') # You should manually restart this script upon editing it
 ignore_list+=('/.gitignore')
 ignore_list+=('/objs')
+ignore_list+=('/bin')
 
 prefixed_ignore_list=()
 
