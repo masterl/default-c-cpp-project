@@ -57,7 +57,7 @@ MAINDIR := src
 # Name of main file
 MAINFILE := main.cpp
 # All source directories (except test files directory)
-SOURCEDIRS := $(MAINDIR) utils
+SOURCEDIRS := $(MAINDIR)
 
 UNPROCESSEDDIRLIST := $(SOURCEDIRS)
 
