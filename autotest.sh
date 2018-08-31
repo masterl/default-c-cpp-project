@@ -35,6 +35,7 @@ readonly GIT_STATUS_COMMAND="git status"
 readonly PRINT_LINE="echo \\\"==================================================\\\""
 
 readonly FULL_COMMAND_STRING="find $PROJECT_ROOT |
+grep -E \"($PROJECT_ROOT/src)|($PROJECT_ROOT/tests)\" |
 ${grep_ignore_list}
 entr -d bash -c \"
   tput reset;
