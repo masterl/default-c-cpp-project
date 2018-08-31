@@ -2,12 +2,6 @@
 
 readonly PROJECT_ROOT=$( cd "$( dirname "$0" )" && pwd )
 
-readonly CURRENT_ULIMIT_SIZE=$(ulimit -Sn)
-
-if [ "$CURRENT_ULIMIT_SIZE" -lt 4000 ]; then
-  ulimit -Sn 5000
-fi
-
 ignore_list=()
 ignore_list+=('/.git')
 ignore_list+=('/autotest.sh') # You should manually restart this script upon editing it
