@@ -34,20 +34,22 @@ readonly TEST_COMMAND="make -C $PROJECT_ROOT test"
 readonly GIT_STATUS_COMMAND="git status"
 readonly PRINT_LINE="echo \\\"==================================================\\\""
 
-entr_command="entr -d sh -c \""
-entr_command="$entr_command tput reset;"
-entr_command="$entr_command echo \\\"Running tests...\\\";"
-entr_command="$entr_command $PRINT_LINE;"
-entr_command="$entr_command $TEST_COMMAND;"
-entr_command="$entr_command echo; $PRINT_LINE;"
-entr_command="$entr_command echo \\\"Running GIT Status...\\\";"
-entr_command="$entr_command $PRINT_LINE;"
-entr_command="$entr_command $GIT_STATUS_COMMAND;"
-entr_command="$entr_command echo;"
-entr_command="$entr_command date;"
-entr_command="$entr_command\""
-
-readonly FULL_COMMAND_STRING="find $PROJECT_ROOT | $grep_ignore_list $entr_command"
+readonly FULL_COMMAND_STRING="find $PROJECT_ROOT |
+${grep_ignore_list}
+entr -d bash -c \"
+  tput reset;
+  echo \\\"Running tests...\\\";
+  $PRINT_LINE;
+  $TEST_COMMAND;
+  echo;
+  $PRINT_LINE;
+  echo \\\"Running GIT Status...\\\";
+  $PRINT_LINE;
+  $GIT_STATUS_COMMAND;
+  echo;
+  date;
+  \"
+"
 
 while true; do
   eval "$FULL_COMMAND_STRING"
