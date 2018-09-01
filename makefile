@@ -29,8 +29,6 @@ CFLAGS := -Wall
 CXXFLAGS := -Wall -std=c++14
 CXXFLAGS += -I./vendor
 
-ALLCOMPFLAGS := $(GENERALSTARTFLAGS) $(INCLUSIONFLAGS)
-
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #	Linker flags
 #--------------------------------------------------------------------------
@@ -63,7 +61,8 @@ UNPROCESSEDDIRLIST := $(SOURCEDIRS)
 
 ifeq ($(MAKECMDGOALS),test)
 	TESTSDIR := tests
-	ALLCOMPFLAGS += -I.
+	CFLAGS += -I./src
+	CXXFLAGS += -I./src
 	UNPROCESSEDDIRLIST += $(TESTSDIR)
 endif
 
@@ -95,6 +94,11 @@ ALLOBJS := $(call get_objects_from_sources_list,$(ALLSRCFILES))
 MAIN_COMPILER := $(call get_main_compiler)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Main flags
+#--------------------------------------------------------------------------
+MAIN_FLAGS := $(if $(call is_cpp_project),$(CXXFLAGS),$(CFLAGS))
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Executable definitions
 #--------------------------------------------------------------------------
 EXEC := exec
@@ -104,9 +108,7 @@ BINDIR := bin
 
 export CFLAGS
 export CXXFLAGS
-export ALLCOMPFLAGS
 export OBJDIR
-export ALLOBJS
 
 all:
 	@echo -e '\n'
@@ -120,7 +122,7 @@ all:
 	@echo -e '===============================================\n\n'
 
 exec: rmexec allobjs FORCE | $(BINDIR)
-	$(MAIN_COMPILER) $(ALLOBJS) $(ALLCOMPFLAGS) -o $(BINDIR)/$(EXEC) $(LINKFLAGS)
+	$(MAIN_COMPILER) $(ALLOBJS) $(MAIN_FLAGS) -o $(BINDIR)/$(EXEC) $(LINKFLAGS)
 	@echo -e '=----------------------------------------------------='
 	@echo -e '=           executable generated/updated             ='
 	@echo -e '=           Executable: $(BINDIR)/$(EXEC)  \t\t     ='
@@ -131,7 +133,7 @@ test: compiletest
 	@set -e;./$(BINDIR)/$(TESTEXEC)
 
 compiletest: rmtest allobjs FORCE | $(BINDIR)
-	$(MAIN_COMPILER) $(ALLOBJS) $(ALLCOMPFLAGS) -o $(BINDIR)/$(TESTEXEC) $(LINKFLAGS)
+	$(MAIN_COMPILER) $(ALLOBJS) $(MAIN_FLAGS) -o $(BINDIR)/$(TESTEXEC) $(LINKFLAGS)
 	@echo -e '=----------------------------------------------------='
 	@echo -e '=           TESTS generated/updated                  ='
 	@echo -e '=           Executable: $(BINDIR)/$(TESTEXEC)  \t\t     ='
