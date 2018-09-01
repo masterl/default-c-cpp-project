@@ -76,3 +76,7 @@ endef
 define get_main_compiler
 $(if $(call is_cpp_project),$(CXX),$(CC))
 endef
+
+define get_compiler_flags
+$(if $(call is_cpp_file, $1),$(CXXFLAGS),$(CFLAGS))
+endef
