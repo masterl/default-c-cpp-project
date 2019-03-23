@@ -1,86 +1,77 @@
 #!/bin/bash
 
 readonly PROJECT_ROOT=$( cd "$( dirname "$0" )" && pwd )
+readonly PRINT_LINE='echo "=================================================="'
+readonly C_CPP_EXTENSIONS_REGEX='[.](c|cc|cp|cxx|cpp|CPP|c[+]{2}|C)$'
+
 
 function main() {
-  ensure_main_file_exists
-  echo 'end'
+  ensure_main_file_exists "src"
+  ensure_main_file_exists "tests"
+  generate_test_command_string
+  generate_entr_command_string
+
+  while true; do
+  find "$PROJECT_ROOT" -type f |
+  grep -E "$C_CPP_EXTENSIONS_REGEX" |
+  entr -d bash -c "$ENTR_COMMAND"
+  done
 }
 
 function ensure_main_file_exists() {
   local main_file=''
 
   while true; do
-    main_file=$(find "$PROJECT_ROOT/src" -type f | grep -E "/main[.](c|cc|cp|cxx|cpp|CPP|c[+]{2}|C)$")
+    main_file=$(find "$PROJECT_ROOT/$1" -type f | grep -E "/main$C_CPP_EXTENSIONS_REGEX")
 
     if [ -z "$main_file" ]
     then
       echo -e "\nERROR"
-      echo "No main file found on 'src' folder!"
+      echo "No main file found on '$1' folder!"
       echo "Please name your main file as 'main' with the appropriate extension."
       echo -e "\nRetrying in 5 seconds..."
       sleep 5
-      continue
     else
       break
     fi
-
-    # echo "$main_file"
-    # sleep 2
   done
-
-  # while true; do
-  #   if [ ! -f "$EXPECTED_OUTPUT_FILE" ]; then
-  #     tput reset
-  #     echo -e "Expected output file wasn't found!\\n"
-  #     echo "Missing file:"
-  #     echo "    $EXPECTED_OUTPUT_FILE"
-  #     echo "$DIV_LINE"
-  #     date
-  #     sleep 2
-  #     continue
-  #   fi
-  # done
 }
 
-# ignore_list=()
-# ignore_list+=('/objs')
-# ignore_list+=('/.keep')
-#
-# all_files=''
-#
-# refresh_files_list()
-# {
-#   all_files=$(find "$PROJECT_ROOT" | grep -E "($PROJECT_ROOT/src)|($PROJECT_ROOT/tests)")
-#
-#   for element in "${ignore_list[@]}"
-#   do
-#     all_files=$(echo "$all_files" | grep -v -E "$element")
-#   done
-# }
-#
-# readonly TEST_COMMAND="make -C $PROJECT_ROOT test"
-#
-# readonly GIT_STATUS_COMMAND="git -C $PROJECT_ROOT status"
-#
-# readonly PRINT_LINE="echo \"==================================================\""
-#
-# readonly COMMAND_STRING="tput reset;
-#   echo \"Running tests...\";
-#   $PRINT_LINE;
-#   $TEST_COMMAND;
-#   echo;
-#   $PRINT_LINE;
-#   echo \"Running GIT Status...\";
-#   $PRINT_LINE;
-#   $GIT_STATUS_COMMAND;
-#   echo;
-#   date;
-# "
+function generate_test_command_string() {
+  local command_parts=(
+    'make'
+    '-C'
+    "$PROJECT_ROOT"
+    "test"
+  )
 
-# while true; do
-#   refresh_files_list
-#   echo "${all_files[@]}" | entr -d bash -c "$COMMAND_STRING"
-# done
+  declare -gr "TEST_COMMAND=$(array_join ' ' "${command_parts[@]}")"
+}
+
+function generate_entr_command_string() {
+  local command_parts=(
+    'tput reset'
+    'echo "Running tests..."'
+    "$PRINT_LINE"
+    "$TEST_COMMAND"
+    'echo'
+    "$PRINT_LINE"
+    'echo "Running GIT Status..."'
+    "$PRINT_LINE"
+    "git -C $PROJECT_ROOT status -sb"
+    'echo'
+    'date'
+  )
+
+  declare -gr "ENTR_COMMAND=$(array_join ';' "${command_parts[@]}")"
+}
+
+function array_join() {
+  local d=$1
+  shift
+  echo -n "$1"
+  shift
+  printf "%s" "${@/#/$d}"
+}
 
 main "$@"
