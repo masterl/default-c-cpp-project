@@ -7,5 +7,6 @@
 - [ ] Improve `autotest.sh`
   - [ ] add support for other extensions(.cc, .cp, .cxx, .cpp, .CPP, .c++, .C)
   - [ ] Improve script structure
-- [ ] Replace `.keep` with `main.cpp` on `src`
+  - [X] Warn user to call it's main file as `main.EXT`
+- [ ] Add note on README.md to create main file named `main.cpp` (or `main.c` if it's a C project)
 - [X] Improve `.gitignore` using [gitignore.io](https://www.gitignore.io/)
