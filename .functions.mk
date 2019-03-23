@@ -14,7 +14,7 @@ $(tab)$(1)
 endef
 
 define get_folder_source_files_list
-$(shell find $1 -maxdepth 1 -type f | grep -E ".c(pp)?$$")
+$(shell find $1 -maxdepth 1 -type f | grep -E "[.](c|cc|cp|cxx|cpp|CPP|c[+]{2}|C)$$")
 endef
 
 define get_directory_tree
