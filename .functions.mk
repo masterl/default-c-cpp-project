@@ -52,7 +52,7 @@ $(subst .o,,$(subst $(OBJDIR)/,,$1))
 endef
 
 define get_object_rule_from_source
-$(patsubst \,,$(shell $(CC) -MM $(ALLCOMPFLAGS) $1))
+$(patsubst \,,$(shell $(CC) -MM $(call get_compiler_flags, $(TARGET_SOURCE)) $1))
 endef
 
 define get_prerequisites_from_rule

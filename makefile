@@ -53,7 +53,7 @@ LINKFLAGS += $(TESTFLAGS)
 # Specify main source directory (which contains the main source file)
 MAINDIR := src
 # Name of main file
-ifeq (,$(wildcard ./src/main.cpp))
+ifeq (,$(wildcard $(PROJECT_ROOT)/src/main.cpp))
 	MAINFILE := main.c
 else
 	MAINFILE := main.cpp
@@ -66,8 +66,8 @@ UNPROCESSEDDIRLIST := $(SOURCEDIRS)
 
 ifeq ($(MAKECMDGOALS),test)
 	TESTSDIR := tests
-	CFLAGS += -I./src
-	CXXFLAGS += -I./src
+	CFLAGS += -iquote $(PROJECT_ROOT)/src
+	CXXFLAGS += -iquote $(PROJECT_ROOT)/src
 	UNPROCESSEDDIRLIST += $(TESTSDIR)
 endif
 
