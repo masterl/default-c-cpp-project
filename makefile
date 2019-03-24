@@ -6,20 +6,20 @@
 include .functions.mk
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#	Compilers:
+# Compilers:
 #--------------------------------------------------------------------------
 # Override if needed:
 CC := gcc
 CXX := g++
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#	Directories for linking
+# Directories for linking
 #--------------------------------------------------------------------------
 # ======== GENERAL ========
 LIBDIR := -L/usr/lib
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#	Compilation flags
+# Compilation flags
 #--------------------------------------------------------------------------
 
 # Flags for the C compiler.
@@ -30,7 +30,7 @@ CXXFLAGS := -Wall -std=c++14
 CXXFLAGS += -isystem $(PROJECT_ROOT)/vendor
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#	Linker flags
+# Linker flags
 #--------------------------------------------------------------------------
 # ==== SOME KNOWN FLAGS (might be incomplete) ====
 #PGFLAGS = -lpq
@@ -48,12 +48,12 @@ endif
 LINKFLAGS += $(TESTFLAGS)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#	Sources directories
+# Sources directories
 #--------------------------------------------------------------------------
 # Specify main source directory (which contains the main source file)
 MAINDIR := src
 # Name of main file
-MAINFILE := $(get_main_file)
+MAINFILE := $(call get_main_file)
 
 # All source directories (except test files directory)
 SOURCEDIRS := $(MAINDIR)
@@ -70,7 +70,7 @@ endif
 _ALLSRCDIRLIST := $(call get_processed_directories_trees_list,$(UNPROCESSEDDIRLIST))
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#	Object directories
+# Object directories
 #--------------------------------------------------------------------------
 OBJDIRLIST := $(call get_objects_directories,$(_ALLSRCDIRLIST))
 
