@@ -27,7 +27,7 @@ CFLAGS := -Wall
 
 # Flags for the C++ compiler.
 CXXFLAGS := -Wall -std=c++14
-CXXFLAGS += -I./vendor
+CXXFLAGS += -isystem $(PROJECT_ROOT)/vendor
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #	Linker flags
