@@ -5,6 +5,8 @@
 
 OBJDIR := objs
 
+PROJECT_ROOT := $(patsubst %/,%,$(dir $(realpath $(firstword $(MAKEFILE_LIST)))))
+
 empty =
 tab = $(empty)$(shell printf '\t')$(empty)
 

@@ -3,6 +3,7 @@
 - [X] Set compilation flags according to source type for each object
 - [ ] Improve flags management (?)
   - [X] Select flags depending on project language
+  - [ ] Separate test flags from project compilation flags
 - [ ] Create tool for importing project structure
 - [X] Improve `autotest.sh`
   - [X] add support for other extensions(.cc, .cp, .cxx, .cpp, .CPP, .c++, .C)
