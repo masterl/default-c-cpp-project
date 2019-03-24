@@ -53,11 +53,7 @@ LINKFLAGS += $(TESTFLAGS)
 # Specify main source directory (which contains the main source file)
 MAINDIR := src
 # Name of main file
-ifeq (,$(wildcard $(PROJECT_ROOT)/src/main.cpp))
-	MAINFILE := main.c
-else
-	MAINFILE := main.cpp
-endif
+MAINFILE := $(get_main_file)
 
 # All source directories (except test files directory)
 SOURCEDIRS := $(MAINDIR)

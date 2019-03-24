@@ -14,7 +14,6 @@ Makefiles and folder structure for C/C++ development
       - `.CPP`
       - `.c++`
       - `.C`
-  - (**Makefile currently only supports .cpp for C++ main file**)
   - By *"main file"* we mean the file that actually contains a `main` function
 
 ### Features:

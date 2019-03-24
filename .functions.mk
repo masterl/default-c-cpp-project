@@ -7,6 +7,8 @@ OBJDIR := objs
 
 PROJECT_ROOT := $(patsubst %/,%,$(dir $(realpath $(firstword $(MAKEFILE_LIST)))))
 
+C_CPP_EXTENSIONS_REGEX := [.](c|cc|cp|cxx|cpp|CPP|c[+]{2}|C)
+
 empty =
 tab = $(empty)$(shell printf '\t')$(empty)
 
@@ -16,7 +18,11 @@ $(tab)$(1)
 endef
 
 define get_folder_source_files_list
-$(shell find $1 -maxdepth 1 -type f | grep -E "[.](c|cc|cp|cxx|cpp|CPP|c[+]{2}|C)$$")
+$(shell find $1 -maxdepth 1 -type f | grep -E "$(C_CPP_EXTENSIONS_REGEX)$$")
+endef
+
+define get_main_file
+$(shell find $(PROJECT_ROOT)/$(MAINDIR) | grep -E "/main$(C_CPP_EXTENSIONS_REGEX)$$")
 endef
 
 define get_directory_tree
