@@ -111,23 +111,20 @@ export CFLAGS
 export CXXFLAGS
 export OBJDIR
 
-all:
-	@echo -e '\n'
-	@echo -e '==================== ERROR ===================='
-	@echo -e ' --------------------------------------------  '
-	@echo    " |        There's no default rule!           | "
-	@echo -e ' --------------------------------------------  '
-	@echo -e '   Choose an option:\n'
-	@echo -e '\texec\t    [compiles main executable]'
-	@echo -e '\tclean\t\t    [erases all files]'
-	@echo -e '===============================================\n\n'
-
 exec: rmexec allobjs FORCE | $(BINDIR)
 	$(MAIN_COMPILER) $(ALLOBJS) $(MAIN_FLAGS) -o $(BINDIR)/$(EXEC) $(LINKFLAGS)
 	@echo -e '=----------------------------------------------------='
 	@echo -e '=           executable generated/updated             ='
 	@echo -e '=           Executable: $(BINDIR)/$(EXEC)  \t\t     ='
 	@echo -e '=----------------------------------------------------=\n\n'
+
+help:
+	@echo -e '\n'
+	@echo -e '======================= HELP ========================\n'
+	@echo -e '   Options:\n'
+	@echo -e '      make exec            [compiles main executable]'
+	@echo -e '      make clean         [erases all generated files]'
+	@echo -e '=====================================================\n\n'
 
 test: compiletest
 	@echo -e 'Executing tests...\n'
