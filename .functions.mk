@@ -30,7 +30,7 @@ $(shell find $1 -type d)
 endef
 
 define get_directories_trees_list
-$(foreach dir,$1,$(call get_directory_tree,$(dir)))
+$(foreach dir,$1,$(call get_directory_tree,$(PROJECT_ROOT)/$(dir)))
 endef
 
 define remove_objs_folders

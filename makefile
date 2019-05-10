@@ -81,7 +81,7 @@ ALLSRCFILES := $(foreach dir,$(_ALLSRCDIRLIST),$(call get_folder_source_files_li
 
 # Main file should be removed from list when testing
 ifeq ($(MAKECMDGOALS),test)
-	ALLSRCFILES := $(filter-out $(MAINDIR)/$(MAINFILE),$(ALLSRCFILES))
+	ALLSRCFILES := $(filter-out $(MAINFILE),$(ALLSRCFILES))
 endif
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
