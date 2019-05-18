@@ -1,24 +1,24 @@
 #!/bin/bash
 
 readonly PROJECT_ROOT=$( cd "$( dirname "$0" )" && pwd )
-readonly PRINT_LINE='echo "=================================================="'
+
 readonly C_CPP_EXTENSIONS_REGEX='[.](c|cc|cp|cxx|cpp|CPP|c[+]{2}|C)$'
 
 
-function main() {
+function main()
+{
   ensure_main_file_exists "src"
   ensure_main_file_exists "tests"
-  generate_test_command_string
-  generate_entr_command_string
 
   while true; do
   find "$PROJECT_ROOT" -type f |
   grep -E "$C_CPP_EXTENSIONS_REGEX" |
-  entr -d bash -c "$ENTR_COMMAND"
+  entr -d bash entr_script.sh "$PROJECT_ROOT"
   done
 }
 
-function ensure_main_file_exists() {
+function ensure_main_file_exists()
+{
   local main_file=''
 
   while true; do
@@ -35,43 +35,6 @@ function ensure_main_file_exists() {
       break
     fi
   done
-}
-
-function generate_test_command_string() {
-  local command_parts=(
-    'make'
-    '-C'
-    "$PROJECT_ROOT"
-    "test"
-  )
-
-  declare -gr "TEST_COMMAND=$(array_join ' ' "${command_parts[@]}")"
-}
-
-function generate_entr_command_string() {
-  local command_parts=(
-    'tput reset'
-    'echo "Running tests..."'
-    "$PRINT_LINE"
-    "$TEST_COMMAND"
-    'echo'
-    "$PRINT_LINE"
-    'echo "Running GIT Status..."'
-    "$PRINT_LINE"
-    "git -C $PROJECT_ROOT status -sb"
-    'echo'
-    'date'
-  )
-
-  declare -gr "ENTR_COMMAND=$(array_join ';' "${command_parts[@]}")"
-}
-
-function array_join() {
-  local d=$1
-  shift
-  echo -n "$1"
-  shift
-  printf "%s" "${@/#/$d}"
 }
 
 main "$@"
